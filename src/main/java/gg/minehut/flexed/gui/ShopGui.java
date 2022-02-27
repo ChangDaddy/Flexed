@@ -1,5 +1,6 @@
 package gg.minehut.flexed.gui;
 
+import com.mysql.jdbc.ServerPreparedStatement;
 import com.samjakob.spigui.SGMenu;
 import com.samjakob.spigui.buttons.SGButton;
 import com.samjakob.spigui.item.ItemBuilder;
@@ -10,6 +11,7 @@ import gg.minehut.flexed.items.BlockItem;
 import gg.minehut.flexed.items.HatItem;
 import gg.minehut.flexed.items.Item;
 import gg.minehut.flexed.items.StickItem;
+import gg.minehut.flexed.task.impl.ItemContainer;
 import gg.minehut.flexed.task.impl.ShopTask;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,12 +20,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ShopGui {
-    private final PlayerData data;
-
-
     public ShopGui(PlayerData data) {
-        this.data = data;
-
         SGMenu shop = Flexed.getInstance().getSpiGUI()
                 .create("Shop", 1);
 
@@ -36,7 +33,7 @@ public class ShopGui {
             ));
         }
 
-        for (Item item : Flexed.getInstance().getItemContainer().getAvailableItems()) {
+        for (Item item : ItemContainer.getInstance().getAvailableItems()) {
             if (item instanceof BlockItem) {
                 shop.setButton(1, new SGButton(new ItemBuilder(item.getIcon())
                         .lore(
@@ -73,6 +70,7 @@ public class ShopGui {
                         .name("&e" + ShopTask.COUNTDOWN.convertTime())
                         .lore("&7until shop refreshes")
                         .build()));
+                data.getPlayer().updateInventory();
             }
         }.runTaskTimer(Flexed.getInstance().getPlugin(),0L, 20));
 

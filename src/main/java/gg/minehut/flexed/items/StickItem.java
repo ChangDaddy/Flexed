@@ -11,10 +11,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.Serializable;
 
 @Getter
-public class StickItem extends Item implements Serializable {
+public class StickItem extends Item {
     private final ItemStack stick;
     public StickItem(String name, ItemStack icon, int price) {
-        super(name, icon, price);
+        super(name, icon, ItemCategory.STICK, price);
         ItemStack stick = new ItemStack(icon);
         ItemMeta itemMeta = stick.getItemMeta();
         itemMeta.setDisplayName(ColorUtil.translate("&f&l&o" + name));

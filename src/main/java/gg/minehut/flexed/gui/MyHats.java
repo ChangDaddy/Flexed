@@ -1,4 +1,4 @@
-package gg.minehut.flexed.task.impl;
+package gg.minehut.flexed.gui;
 
 import com.samjakob.spigui.SGMenu;
 import com.samjakob.spigui.buttons.SGButton;
@@ -6,6 +6,7 @@ import com.samjakob.spigui.item.ItemBuilder;
 import gg.minehut.flexed.Flexed;
 import gg.minehut.flexed.data.PlayerData;
 import gg.minehut.flexed.items.HatItem;
+import gg.minehut.flexed.util.ColorUtil;
 
 public class MyHats {
 
@@ -19,10 +20,12 @@ public class MyHats {
                     .withListener(event -> {
                         event.setCancelled(true);
                         data.getPlayer().sendMessage("");
-                        data.getPlayer().sendMessage("&7Selected the &f&l" + item.getName() + " cosmetic!");
+                        data.getPlayer().sendMessage(ColorUtil.translate("&7Selected the &f&l" + item.getName() + " cosmetic!"));
                         data.getPlayer().sendMessage("");
 
                     }));
         });
+
+        data.getPlayer().openInventory(menu.getInventory());
     }
 }

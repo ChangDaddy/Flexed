@@ -1,4 +1,4 @@
-package gg.minehut.flexed.task.impl;
+package gg.minehut.flexed.gui;
 
 import com.samjakob.spigui.SGMenu;
 import com.samjakob.spigui.buttons.SGButton;
@@ -6,7 +6,7 @@ import com.samjakob.spigui.item.ItemBuilder;
 import gg.minehut.flexed.Flexed;
 import gg.minehut.flexed.data.PlayerData;
 import gg.minehut.flexed.items.StickItem;
-import org.bukkit.ChatColor;
+import gg.minehut.flexed.util.ColorUtil;
 
 public class MySticks {
     public MySticks(PlayerData data) {
@@ -19,9 +19,11 @@ public class MySticks {
                     .withListener(event -> {
                         event.setCancelled(true);
                         data.getPlayer().sendMessage("");
-                        data.getPlayer().sendMessage("&7Selected the &f&l" + item.getName() + " cosmetic!");
+                        data.getPlayer().sendMessage(ColorUtil.translate("&7Selected the &f&l" + item.getName() + " cosmetic!"));
                         data.getPlayer().sendMessage("");
                     }));
         });
+
+        data.getPlayer().openInventory(menu.getInventory());
     }
 }

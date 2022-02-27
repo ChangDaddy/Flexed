@@ -29,7 +29,7 @@ public class CommandHandler {
         Collection<URL> urls = ClasspathHelper.forClassLoader(ClasspathHelper.contextClassLoader(), ClasspathHelper.staticClassLoader(), plugin.getClass().getClassLoader());
 
         if(urls.size() > 0) {
-            urls.forEach(url -> Vfs.fromURL(url).getFiles().forEach(file -> {
+            urls.stream().filter(url -> !url.toString().contains("https")).forEach(url -> Vfs.fromURL(url).getFiles().forEach(file -> {
                 String name = file.getRelativePath().replace("/", ".").replace(".class", "");
                 try { if (name.startsWith(path)) classes.add(Class.forName(name)); } catch(ClassNotFoundException ex) { ex.printStackTrace(); }
             }));

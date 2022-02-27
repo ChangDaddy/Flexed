@@ -4,36 +4,44 @@ package gg.minehut.flexed.items;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.util.Base64;
 
-@RequiredArgsConstructor
 @Getter
-public class Item implements Serializable {
+public class Item {
     private final String name;
     private final ItemStack icon;
+    private final ItemCategory category;
     private final int price;
 
-    @SneakyThrows
-    public String serialize() {
-        ByteArrayOutputStream io = new ByteArrayOutputStream();
-        ObjectOutputStream os = new ObjectOutputStream(io);
-        os.writeObject(this);
-        os.flush();
-        byte[] serializedObject = io.toByteArray();
-        return Base64.getEncoder().encodeToString(serializedObject);
+    public Item(String name, ItemStack icon, ItemCategory category, int price) {
+        this.name = name;
+        this.icon = icon;
+        this.category = category;
+        this.price = price;
     }
 
-    @SneakyThrows
-    public static Item deserialize(String encodedObject) {
-        byte[] serializedObject = Base64.getDecoder().decode(encodedObject);
-
-        ByteArrayInputStream in = new ByteArrayInputStream(serializedObject);
-        ObjectInputStream is = new ObjectInputStream(in);
-
-        return (Item) is.readObject();
+    public boolean isStick() {
+        return this instanceof StickItem;
     }
 
+    public boolean isHat() {
+        return this instanceof HatItem;
+    }
+
+    public boolean isBlock() {
+        return this instanceof BlockItem;
+    }
+
+
+    public enum ItemCategory {
+        STICK, HELMET, BLOCKS;
+
+        public String format() {
+            return StringUtils.capitalize(this.name());
+        }
+    }
 }

@@ -2,6 +2,7 @@ package gg.minehut.flexed.data;
 
 
 import gg.minehut.flexed.Flexed;
+import gg.minehut.flexed.task.impl.JoinCounter;
 import gg.minehut.flexed.util.ColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ public class DataListener implements Listener {
         Player player = event.getPlayer();
 
         event.setJoinMessage(Flexed.getInstance().getDataManager().addPlayer(player)
-                .isFirstJoin() ? ColorUtil.translate("&8(&a+&8) &7" + player.getName() + " joined. &8[" + Flexed.getInstance().incrementJoins() + "]")
+                .isFirstJoin() ? ColorUtil.translate("&8(&a+&8) &7" + player.getName() + " joined. &8[" + JoinCounter.getInstance().incrementJoins() + "]")
                 : ColorUtil.translate("&8(&a+&8) &7" + player.getName() + " joined."));
     }
 

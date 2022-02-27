@@ -1,6 +1,5 @@
 package gg.minehut.flexed;
 
-import gg.minehut.flexed.lib.LibUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FlexedLoader extends JavaPlugin {
@@ -13,7 +12,6 @@ public class FlexedLoader extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        new LibUtils(this); // Load libs before calling SpiGui
         flexed = new Flexed();
         flexed.onLoad(this);
         super.onLoad();
@@ -21,6 +19,7 @@ public class FlexedLoader extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        flexed.onDisable();
         super.onDisable();
     }
 }

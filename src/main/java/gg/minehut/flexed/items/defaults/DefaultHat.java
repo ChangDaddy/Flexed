@@ -6,6 +6,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class DefaultHat extends HatItem {
     public DefaultHat() {
-        super("NO_HELMET", new ItemStack(Material.BARRIER), 0);
+        super("NO_HELMET", new ItemStack(Material.BARRIER), new ItemStack(Material.AIR), 0);
     }
 }
