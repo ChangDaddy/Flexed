@@ -5,12 +5,14 @@ import lombok.SneakyThrows;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.net.URL;
 
 public class LibUtils {
-    final JavaPlugin flexed = Flexed.getInstance();
+    final JavaPlugin flexed;
     final File dataFolder;
 
-    public LibUtils() {
+    public LibUtils(JavaPlugin flexed) {
+        this.flexed = flexed;
         this.dataFolder = flexed.getDataFolder();
         if(!dataFolder.exists())
             dataFolder.mkdir();
@@ -37,7 +39,8 @@ public class LibUtils {
             flexed.getLogger().info(String.format("Downloading %s...", fileName));
             FileUtil.download(lib, fileUrl);
             flexed.getLogger().info(String.format("Finished downloading %s", fileName));
-
         }
+
+        FileUtil.injectUrl(lib.toURI().toURL());
     }
 }

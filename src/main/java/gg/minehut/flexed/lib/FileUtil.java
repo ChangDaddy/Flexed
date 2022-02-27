@@ -10,6 +10,7 @@ import java.net.URLClassLoader;
 import java.nio.channels.Channels;
 
 @UtilityClass
+// Credit: https://github.com/sim0n/Nemesis
 public class FileUtil {
     public ClassLoader CLASS_LOADER = FileUtil.class.getClassLoader();
 

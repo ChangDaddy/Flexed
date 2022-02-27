@@ -17,6 +17,7 @@ public class DataManager {
     }
 
     public void removePlayer(Player player) {
+        get(player).save();
         playerDataMap.remove(player.getUniqueId());
     }
 
