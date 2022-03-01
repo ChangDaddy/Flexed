@@ -72,17 +72,19 @@ public class PlayerData {
         } else {
             final YamlConfiguration load = YamlConfiguration.loadConfiguration(playerFile);
             setKills(load.getInt("kills"));
-            setKills(load.getInt("deaths"));
+            setDeaths(load.getInt("deaths"));
             setCoins(load.getInt("coins"));
-            setDeaths(load.getInt("ks"));
-            setDeaths(load.getInt("maxKs"));
+            setKs(load.getInt("ks"));
+            setMaxKs(load.getInt("maxKs"));
             setStickSlot(load.getInt("stickSlot"));
             setBlockSlot(load.getInt("blockSlot"));
             setWebSlot(load.getInt("webSlot"));
             setPearlSlot(load.getInt("pearlSlot"));
-            for(String key : load.getConfigurationSection("items").getKeys(false)) {
-                items.add(ItemContainer.getInstance().findItem(load.getString("items." + key)));
-            }
+            try {
+                for (String key : load.getConfigurationSection("items").getKeys(false)) {
+                    items.add(ItemContainer.getInstance().findItem(load.getString("items." + key)));
+                }
+            } catch (Exception ignored) {}
 
             setBlockItem((BlockItem) ItemContainer.getInstance().findItem(load.getString("blockItem")));
             setStickItem((StickItem)  ItemContainer.getInstance().findItem(load.getString("stickItem")));
@@ -96,16 +98,22 @@ public class PlayerData {
         getPlayer().getInventory().setItem(getBlockSlot(), getBlockItem().getBlock());
         getPlayer().getInventory().setItem(getWebSlot(), new ItemStack(Material.WEB));
         getPlayer().getInventory().setItem(getPearlSlot(), new ItemStack(Material.ENDER_PEARL));
-        getPlayer().getInventory().setHelmet(getHatItem().getIcon());
+        getPlayer().getInventory().setHelmet(getHatItem().getItem());
         getPlayer().updateInventory();
     }
 
     public void purchaseItem(Item item) {
+        if(items.contains(item)) {
+            player.sendMessage(ColorUtil.translate("&cYou already purchased that item"));
+            return;
+        }
+
         if(coins - item.getPrice() < 0) {
             player.sendMessage(ColorUtil.translate("&cYou cannot afford that item!"));
         } else {
             player.sendMessage(ColorUtil.translate("&7You just purchased " + item.getName() + " for &e" + item.getPrice() + " coins"));
-
+            items.add(item);
+            coins -= item.getPrice();
         }
     }
 
@@ -146,12 +154,12 @@ public class PlayerData {
     public void killPlayer() {
         if(lastAttacked != null) {
             lastAttacked.loadLayout();
-            player.sendMessage(ColorUtil.translate(String.format("&c→ &f%s knocked you into the void!", lastAttacked.getPlayer().getName())));
-            lastAttacked.getPlayer().sendMessage(ColorUtil.translate(String.format("&a→ &7You knocked &f" + player.getName() + " &7into the void &8[&f%s&8]", player, ks)));
+            player.sendMessage(ColorUtil.translate(String.format("&c→ &f%s &7knocked you into the void!", lastAttacked.getPlayer().getName())));
+            lastAttacked.getPlayer().sendMessage(ColorUtil.translate(String.format("&a→ &7You knocked &f" + player.getName() + " &7into the void &8[&f" + lastAttacked.getKs() + "&8]", player)));
             lastAttacked.setKills(lastAttacked.getKills() + 1);
             lastAttacked.setKs(lastAttacked.getKs() + 1);
             if(lastAttacked.getKs() % 5 == 0) {
-                Bukkit.broadcastMessage(ColorUtil.translate(String.format("&b→ &f%s is on a &3&l" + ks + " KILLSTREAK", player.getName()) + "!"));
+                Bukkit.broadcastMessage(ColorUtil.translate(String.format("&b→ &f%s is on a &3&l" + lastAttacked.getKs() + " KILLSTREAK", lastAttacked.getPlayer().getName()) + "!"));
             }
 
             if (ks >= 5) {
@@ -159,15 +167,14 @@ public class PlayerData {
             } else {
                 lastAttacked.setCoins(lastAttacked.getCoins() + 5);
             }
+
+            if(lastAttacked.getKs() > lastAttacked.getMaxKs()) lastAttacked.setMaxKs(lastAttacked.ks);
             lastAttacked = null;
 
 
         }
         if(ks >= 5) {
             Bukkit.broadcastMessage(ColorUtil.translate(String.format("&b→ &f%s lost their &3&l" + ks + " KILLSTREAK", player.getName()) + "!"));
-        }
-        if(getMaxKs() > ks) {
-            setMaxKs(ks);
         }
         setKs(0);
         clearInventory();
@@ -178,7 +185,7 @@ public class PlayerData {
     public void updateBoard() {
         board.updateTitle("&3&lFLEXED &8| &3&lS4");
         board.updateLine(0, "");
-        board.updateLine(1, "&3&lKFFA");
+        board.updateLine(1, "&b&lKFFA");
         board.updateLine(2, "&8• &7Kills: &f" + getKills());
         board.updateLine(3, "&8• &7Deaths: &f" + getDeaths());
         board.updateLine(4, "&8• &7Coins: &f" + getCoins());

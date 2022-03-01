@@ -3,3 +3,5 @@ description: Epic core yes
 version: B69
 author: FinalBoolean
 main: gg.minehut.flexed.FlexedLoader
+softdepend:
+  - WorldGuard

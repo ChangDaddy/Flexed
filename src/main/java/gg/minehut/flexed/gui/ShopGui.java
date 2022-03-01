@@ -1,6 +1,5 @@
 package gg.minehut.flexed.gui;
 
-import com.mysql.jdbc.ServerPreparedStatement;
 import com.samjakob.spigui.SGMenu;
 import com.samjakob.spigui.buttons.SGButton;
 import com.samjakob.spigui.item.ItemBuilder;
@@ -12,7 +11,6 @@ import gg.minehut.flexed.items.HatItem;
 import gg.minehut.flexed.items.Item;
 import gg.minehut.flexed.items.StickItem;
 import gg.minehut.flexed.task.impl.ItemContainer;
-import gg.minehut.flexed.task.impl.ShopTask;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -67,16 +65,18 @@ public class ShopGui {
             @Override
             public void run() {
                 shop.setButton(7, new SGButton(new ItemBuilder(Material.WATCH)
-                        .name("&e" + ShopTask.COUNTDOWN.convertTime())
+                        .name("&e" + ItemContainer.getInstance().getCountDown().convertTime())
                         .lore("&7until shop refreshes")
                         .build()));
-                data.getPlayer().updateInventory();
+                shop.refreshInventory(data.getPlayer());
             }
         }.runTaskTimer(Flexed.getInstance().getPlugin(),0L, 20));
 
         shop.setOnClose(inventory -> {
             if(timeRunnable.get() != null) timeRunnable.get().cancel();
         });
+
+        shop.setAutomaticPaginationEnabled(false);
 
         data.getPlayer().openInventory(shop.getInventory());
     }

@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class CreateItem {
 
     @Command(names = {"create block"}, playerOnly = true, permission = "flexed.admin")
-    public void createBlock(Player player,@Param(name = "name") String name, @Param(name = "price") int price, @Param(name = "id") String args1, @Param(name = "id2") String args2, @Param(name = "id3") String args3) {
+    public void createBlock(Player player,@Param(name = "name") String name, @Param(name = "price") Integer price, @Param(name = "id") String args1, @Param(name = "id2") String args2, @Param(name = "id3") String args3) {
         try {
 
             String id = args1.split(":")[0];
@@ -41,7 +41,7 @@ public class CreateItem {
     }
 
     @Command(names = {"create stick"}, playerOnly = true, permission = "flexed.admin")
-    public void createStick(Player player, @Param(name = "name") String name, @Param(name = "id") String args, @Param(name = "price") int price) {
+    public void createStick(Player player, @Param(name = "name") String name, @Param(name = "id") String args, @Param(name = "price") Integer price) {
         try {
             String id = args.split(":")[0];
             String data = args.split(":")[1];
@@ -57,7 +57,7 @@ public class CreateItem {
     }
 
     @Command(names = {"create hat"}, playerOnly = true, permission = "flexed.admin")
-    public void createHat(Player player, @Param(name = "name") String name, @Param(name = "id") String args, @Param(name = "price") int price) {
+    public void createHat(Player player, @Param(name = "name") String name, @Param(name = "id") String args, @Param(name = "price") Integer price) {
         try {
             String id = args.split(":")[0];
             String data = args.split(":")[1];

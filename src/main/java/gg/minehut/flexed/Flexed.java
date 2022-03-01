@@ -3,6 +3,7 @@ package gg.minehut.flexed;
 import com.samjakob.spigui.SpiGUI;
 import gg.minehut.flexed.data.DataListener;
 import gg.minehut.flexed.data.DataManager;
+import gg.minehut.flexed.data.PlayerData;
 import gg.minehut.flexed.task.TaskBuilder;
 import gg.minehut.flexed.task.impl.ItemContainer;
 import gg.minehut.flexed.task.impl.JoinCounter;
@@ -36,5 +37,6 @@ public class Flexed {
         JoinCounter.getInstance().saveJoins();
         LocationTask.getInstance().save();
         ItemContainer.getInstance().saveItems();
+        for(PlayerData data : dataManager.getPlayerDataMap().values()) data.save();
     }
 }

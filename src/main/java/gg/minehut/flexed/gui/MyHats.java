@@ -5,6 +5,7 @@ import com.samjakob.spigui.buttons.SGButton;
 import com.samjakob.spigui.item.ItemBuilder;
 import gg.minehut.flexed.Flexed;
 import gg.minehut.flexed.data.PlayerData;
+import gg.minehut.flexed.items.BlockItem;
 import gg.minehut.flexed.items.HatItem;
 import gg.minehut.flexed.util.ColorUtil;
 
@@ -22,6 +23,7 @@ public class MyHats {
                         data.getPlayer().sendMessage("");
                         data.getPlayer().sendMessage(ColorUtil.translate("&7Selected the &f&l" + item.getName() + " cosmetic!"));
                         data.getPlayer().sendMessage("");
+                        data.setHatItem((HatItem) item);
 
                     }));
         });

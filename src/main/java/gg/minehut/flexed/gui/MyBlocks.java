@@ -22,7 +22,7 @@ public class MyBlocks {
                         data.getPlayer().sendMessage("");
                         data.getPlayer().sendMessage(ColorUtil.translate("&7Selected the &f&l" + item.getName() + " cosmetic!"));
                         data.getPlayer().sendMessage("");
-
+                        data.setBlockItem((BlockItem) item);
                     }));
         });
 

@@ -10,11 +10,13 @@ import gg.minehut.flexed.items.defaults.DefaultHat;
 import gg.minehut.flexed.items.defaults.DefaultStick;
 import gg.minehut.flexed.task.ITask;
 import gg.minehut.flexed.util.ConcurrentEvictingList;
+import gg.minehut.flexed.util.CountDown;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +27,12 @@ import java.util.Random;
 @Getter
 public class ItemContainer extends ITask {
 
-    @Getter(AccessLevel.PUBLIC) private static ItemContainer instance;
-    @Getter(AccessLevel.NONE) private final Flexed flexed = Flexed.getInstance();
+    @Getter(AccessLevel.PUBLIC)
+    private static ItemContainer instance;
+    @Getter(AccessLevel.NONE)
+    private final Flexed flexed = Flexed.getInstance();
+    @Getter
+    private final CountDown countDown = new CountDown(60);
 
     private final List<Item> items = new ArrayList<>();
 
@@ -34,7 +40,7 @@ public class ItemContainer extends ITask {
     private final List<BlockItem> blocks = new ArrayList<>();
     private final List<HatItem> hats = new ArrayList<>();
 
-    private final ConcurrentEvictingList<Item> availableItems  = new ConcurrentEvictingList<>(3);
+    private final ConcurrentEvictingList<Item> availableItems = new ConcurrentEvictingList<>(3);
 
     @Override
     public void init() {
@@ -44,52 +50,65 @@ public class ItemContainer extends ITask {
         items.add(new DefaultHat());
         loadItems();
         pickRandom();
+        terribleItemGrabberThatCrashesServer();
     }
 
     public void pickRandom() {
-        if(blocks.size() > 0) {
+        if (blocks.size() > 0) {
             BlockItem blockItem = blocks.get(new Random().nextInt(blocks.size()));
             availableItems.add(blockItem);
         }
-        if(sticks.size() > 0) {
+        if (sticks.size() > 0) {
             StickItem stickItem = sticks.get(new Random().nextInt(sticks.size()));
             availableItems.add(stickItem);
         }
-        if(hats.size() > 0) {
+        if (hats.size() > 0) {
             HatItem hatItem = hats.get(new Random().nextInt(hats.size()));
             availableItems.add(hatItem);
         }
     }
 
     public void terribleItemGrabberThatCrashesServer() {
-        if (blocks.size() > 1) {
-            while (true) {
-                BlockItem blockItem = blocks.get(new Random().nextInt(blocks.size()));
-                if (!availableItems.contains(blockItem)) {
-                    availableItems.add(blockItem);
-                    break;
-                }
-            }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                countDown.countDown();
 
-        }
-        if (sticks.size() > 1) {
-            while (true) {
-                StickItem stickItem = sticks.get(new Random().nextInt(sticks.size()));
-                if (!availableItems.contains(stickItem)) {
-                    availableItems.add(stickItem);
-                    break;
+                if (countDown.isFinished()) {
+
+                    if (blocks.size() > 1) {
+                        while (true) {
+                            BlockItem blockItem = blocks.get(new Random().nextInt(blocks.size()));
+                            if (!availableItems.contains(blockItem)) {
+                                availableItems.add(blockItem);
+                                break;
+                            }
+                        }
+
+                    }
+                    if (sticks.size() > 1) {
+                        while (true) {
+                            StickItem stickItem = sticks.get(new Random().nextInt(sticks.size()));
+                            if (!availableItems.contains(stickItem)) {
+                                availableItems.add(stickItem);
+                                break;
+                            }
+                        }
+                    }
+                    if (hats.size() > 1) {
+                        while (true) {
+                            HatItem hatItem = hats.get(new Random().nextInt(hats.size()));
+                            if (!availableItems.contains(hatItem)) {
+                                availableItems.add(hatItem);
+                                break;
+                            }
+                        }
+                    }
+
+                    countDown.resetTime();
                 }
             }
-        }
-        if (hats.size() > 1) {
-            while (true) {
-                HatItem hatItem = hats.get(new Random().nextInt(hats.size()));
-                if (!availableItems.contains(hatItem)) {
-                    availableItems.add(hatItem);
-                    break;
-                }
-            }
-        }
+        }.runTaskTimerAsynchronously(Flexed.getInstance().getPlugin(), 0, 20);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -174,8 +193,9 @@ public class ItemContainer extends ITask {
     }
 
     public Item findItem(String item) {
-        for(Item items : items) {
-            if(item.equalsIgnoreCase(items.getName())) return items;
+        if (item == null) return null;
+        for (Item items : items) {
+            if (item.equalsIgnoreCase(items.getName())) return items;
         }
         return null;
     }

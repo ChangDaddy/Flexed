@@ -28,8 +28,10 @@ public class KitCommand {
         }
 
         PlayerData data = Flexed.getInstance().getDataManager().get(player);
+        if(data.isEditing()) return;
         data.setEditing(true);
 
+        data.loadLayout();
         player.teleport(LocationTask.getInstance().get("kitspawn"));
         player.sendMessage(ColorUtil.translate("&7How to edit your kit:"));
         player.sendMessage(ColorUtil.translate("&7- &eArrange the items in your inventory to your liking"));
