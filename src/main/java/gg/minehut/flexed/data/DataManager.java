@@ -22,6 +22,10 @@ public class DataManager {
     }
 
     public PlayerData get(Player player) {
-        return playerDataMap.get(player.getUniqueId());
+        try {
+            return playerDataMap.get(player.getUniqueId());
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -15,7 +15,10 @@ import lombok.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EnderPearl;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -43,11 +46,11 @@ public class PlayerData {
         this.player = player;
         this.uuid = player.getUniqueId();
         this.board = new FastBoard(player);
-        this.firstJoin = load();
         stickSlot = 0;
         blockSlot = 1;
         webSlot = 2;
         pearlSlot = 3;
+        this.firstJoin = load();
     }
 
     @SneakyThrows
@@ -155,7 +158,8 @@ public class PlayerData {
         if(lastAttacked != null) {
             lastAttacked.loadLayout();
             player.sendMessage(ColorUtil.translate(String.format("&c→ &f%s &7knocked you into the void!", lastAttacked.getPlayer().getName())));
-            lastAttacked.getPlayer().sendMessage(ColorUtil.translate(String.format("&a→ &7You knocked &f" + player.getName() + " &7into the void &8[&f" + lastAttacked.getKs() + "&8]", player)));
+            final int fixedKs = lastAttacked.getKs() + 1;
+            lastAttacked.getPlayer().sendMessage(ColorUtil.translate(String.format("&a→ &7You knocked &f" + player.getName() + " &7into the void &8[&f" + fixedKs + "&8]", player)));
             lastAttacked.setKills(lastAttacked.getKills() + 1);
             lastAttacked.setKs(lastAttacked.getKs() + 1);
             if(lastAttacked.getKs() % 5 == 0) {
@@ -180,6 +184,15 @@ public class PlayerData {
         clearInventory();
         setDeaths(getDeaths() + 1);
         player.teleport(LocationTask.getInstance().get("spawn"));
+
+        for(Entity entity : player.getWorld().getEntities()) {
+            if(entity instanceof EnderPearl) {
+                if(((EnderPearl) entity).getShooter() instanceof Player) {
+                    if(((EnderPearl) entity).getShooter() == player)
+                        entity.remove();
+                }
+            }
+        }
     }
 
     public void updateBoard() {

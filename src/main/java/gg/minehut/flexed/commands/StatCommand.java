@@ -14,6 +14,7 @@ public class StatCommand {
 
     @Command(names = {"stats", "stat"}, playerOnly = true)
     public void statsCommand(Player player, @Param(name = "player", required = false) Player otherPlayer) {
+        
         if(otherPlayer != null) player = otherPlayer;
 
         SGMenu menu = Flexed.getInstance().getSpiGUI().create("Stats", 1);

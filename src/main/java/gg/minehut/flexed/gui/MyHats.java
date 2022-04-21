@@ -16,6 +16,7 @@ public class MyHats {
 
         data.getItems().stream().filter(item -> item instanceof HatItem).forEach(item -> {
             menu.addButton(new SGButton(new ItemBuilder(item.getIcon())
+                    .name(item.getName())
                     .lore("&7Click to select!")
                     .build())
                     .withListener(event -> {

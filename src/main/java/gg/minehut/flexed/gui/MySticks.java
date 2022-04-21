@@ -15,6 +15,7 @@ public class MySticks {
         data.getItems().stream().filter(item -> item instanceof StickItem).forEach(item -> {
             menu.addButton(new SGButton(new ItemBuilder(((StickItem) item).getStick())
                     .lore("&7Click to select!")
+                    .name(item.getName())
                     .build())
                     .withListener(event -> {
                         event.setCancelled(true);
