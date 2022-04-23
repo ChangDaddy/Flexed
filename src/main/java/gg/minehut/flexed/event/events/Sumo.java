@@ -41,9 +41,6 @@ public class Sumo extends Event {
         player.getPlayer().getInventory().setBoots(null);
         Flexed.getInstance().getDataManager().get(player.getPlayer()).updateBoard();
         super.addPlayer(player);
-        //for (PlayerData loopPlayer : players) {
-        //loopPlayer.getPlayer().sendMessage(ColorUtil.translate("&6[Event] &f" + player.getPlayer().getName() + " &7has joined the event! &e(" + players.size() + "/" + maxPlayers + ")"));
-        //}
     }
 
     @Override
@@ -194,6 +191,7 @@ public class Sumo extends Event {
     }
 
     private void updateBoard() {
+
     }
 
 }

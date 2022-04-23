@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LocationTask extends ITask {
+public class LocationTask implements ITask {
     @Getter(AccessLevel.PUBLIC) private static LocationTask instance;
 
     private final Map<String, Location> locationMap = new HashMap<>();

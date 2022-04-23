@@ -4,7 +4,7 @@ import gg.minehut.flexed.task.ITask;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-public class MapManager extends ITask {
+public class MapManager implements ITask {
 
     @Getter(AccessLevel.PUBLIC)
     private static MapManager instance;

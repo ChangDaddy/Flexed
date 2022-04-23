@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Random;
 
 @Getter
-public class ItemContainer extends ITask {
+public class ItemContainer implements ITask {
 
     @Getter(AccessLevel.PUBLIC)
     private static ItemContainer instance;

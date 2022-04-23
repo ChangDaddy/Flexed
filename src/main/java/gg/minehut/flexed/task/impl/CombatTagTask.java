@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class CombatTagTask extends ITask implements Listener {
+public class CombatTagTask  implements Listener, ITask {
     @Getter(AccessLevel.PUBLIC) private static CombatTagTask instance;
 
     @Override

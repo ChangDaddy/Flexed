@@ -1,5 +1,6 @@
 package gg.minehut.flexed.commands;
 
+import com.samjakob.spigui.SGMenu;
 import gg.minehut.flexed.Flexed;
 import gg.minehut.flexed.data.PlayerData;
 import gg.minehut.flexed.items.BlockItem;

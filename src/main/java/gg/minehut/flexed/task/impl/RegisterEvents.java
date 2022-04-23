@@ -6,7 +6,7 @@ import gg.minehut.flexed.listener.PlayerListener;
 import gg.minehut.flexed.task.ITask;
 import me.gleeming.command.CommandHandler;
 
-public class RegisterEvents extends ITask {
+public class RegisterEvents implements ITask {
     @Override
     public void init() {
         Flexed.getInstance().getPlugin().getServer().getPluginManager().registerEvents(new PlayerListener(), Flexed.getInstance().getPlugin());

@@ -18,7 +18,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -196,19 +195,5 @@ public class PlayerData {
     }
 
     public void updateBoard() {
-        board.updateTitle("&3&lFLEXED &8| &3&lS4");
-        board.updateLine(0, "");
-        board.updateLine(1, "&b&lKFFA");
-        board.updateLine(2, "&8• &7Kills: &f" + getKills());
-        board.updateLine(3, "&8• &7Deaths: &f" + getDeaths());
-        board.updateLine(4, "&8• &7Coins: &f" + getCoins());
-        board.updateLine(5, "&8• &7Streak: &f" + getKs() + " &8(&b" + getMaxKs() + "&8)");
-        board.updateLine(6, "");
-        board.updateLine(7, "&b&lSERVER");
-        board.updateLine(8, "&8- &7Online: &f" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers());
-        board.updateLine(9, "&8- &7Joins: &f" + JoinCounter.getInstance().getJoins());
-        board.updateLine(10, "&8- &7TPS: &f20");
-        board.updateLine(11, "");
-        board.updateLine(12, "&7flexed.minehut.gg");
     }
 }

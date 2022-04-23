@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 
-public class EventManager extends ITask {
+public class EventManager implements ITask {
 
     @Getter(AccessLevel.PUBLIC)
     private static EventManager instance;

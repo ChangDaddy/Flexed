@@ -9,7 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class JoinCounter extends ITask {
+public class JoinCounter implements ITask {
     @Getter(AccessLevel.PUBLIC) private static JoinCounter instance;
     @Getter private int joins;
 

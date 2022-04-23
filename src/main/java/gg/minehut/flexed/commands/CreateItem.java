@@ -4,12 +4,14 @@ import gg.minehut.flexed.items.BlockItem;
 import gg.minehut.flexed.items.HatItem;
 import gg.minehut.flexed.items.StickItem;
 import gg.minehut.flexed.task.impl.ItemContainer;
+import gg.minehut.flexed.util.ColorUtil;
 import me.gleeming.command.Command;
 import me.gleeming.command.help.Help;
 import me.gleeming.command.paramter.Param;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class CreateItem {
@@ -70,6 +72,22 @@ public class CreateItem {
         } catch (Exception e) {
             player.sendMessage("Invalid ID");
         }
+    }
+
+    @Command(names = {"refreshshop"}, playerOnly = true, permission = "flexed.admin")
+    public void refreshCommand(Player player) {
+        final long n = System.currentTimeMillis();
+
+        ItemContainer.getInstance().saveItems();
+        ItemContainer.getInstance().getItems().clear();
+        ItemContainer.getInstance().getBlocks().clear();
+        ItemContainer.getInstance().getHats().clear();
+        ItemContainer.getInstance().getSticks().clear();
+        ItemContainer.getInstance().getAvailableItems().clear();
+        ItemContainer.getInstance().loadItems();
+
+        final long time = System.currentTimeMillis() - n;
+        player.sendMessage(ColorUtil.translate("&aReloaded items in " + time + "ms"));
     }
 
     @Help(names = {"create"})
