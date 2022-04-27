@@ -12,6 +12,13 @@ public class DataManager {
     private final Map<UUID, PlayerData> playerDataMap = new ConcurrentHashMap<>();
 
     public PlayerData addPlayer(Player player) {
+        for (PlayerData data : playerDataMap.values()) {
+            if (data.isVanished() && !player.hasPermission("core.staff")) {
+                player.hidePlayer(data.getPlayer());
+            }
+            player.setPlayerListName(player.getDisplayName());
+        }
+
         playerDataMap.put(player.getUniqueId(), new PlayerData(player));
         return get(player);
     }

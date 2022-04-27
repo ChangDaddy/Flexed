@@ -20,7 +20,7 @@ public class DataListener implements Listener {
 
 
         event.setJoinMessage(Flexed.getInstance().getDataManager().addPlayer(player)
-                .isFirstJoin() ? ColorUtil.translate("&8(&a+&8) &7" + player.getName() + " joined. &8[" + JoinCounter.getInstance().incrementJoins() + "]")
+                .clearInventory().isFirstJoin() ? ColorUtil.translate("&8(&a+&8) &7" + player.getName() + " joined. &8[" + JoinCounter.getInstance().incrementJoins() + "]")
                 : ColorUtil.translate("&8(&a+&8) &7" + player.getName() + " joined."));
         player.teleport(LocationTask.getInstance().get("spawn"));
     }

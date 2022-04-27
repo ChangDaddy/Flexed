@@ -6,7 +6,6 @@ import gg.minehut.flexed.items.HatItem;
 import gg.minehut.flexed.items.Item;
 import gg.minehut.flexed.items.StickItem;
 import gg.minehut.flexed.task.impl.ItemContainer;
-import gg.minehut.flexed.task.impl.JoinCounter;
 import gg.minehut.flexed.task.impl.LocationTask;
 import gg.minehut.flexed.util.ColorUtil;
 import gg.minehut.flexed.util.CountDown;
@@ -31,7 +30,7 @@ public class PlayerData {
     private final Player player;
     private final UUID uuid;
     private final boolean firstJoin;
-    private boolean editing, arena;
+    private boolean editing, arena, vanished;
     private int kills, deaths, coins, maxKs, ks, stickSlot, blockSlot, webSlot, pearlSlot;
     private final List<Item> items = new ArrayList<>();
     private BlockItem blockItem;
@@ -119,12 +118,26 @@ public class PlayerData {
         }
     }
 
-    public void clearInventory() {
+    public void vanish() {
+        vanished = !vanished;
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(!player.hasPermission("core.staff"))  {
+                if(vanished) {
+                    player.hidePlayer(this.player);
+                } else {
+                    player.showPlayer(this.player);
+                }
+            }
+        }
+    }
+
+    public PlayerData clearInventory() {
         player.getInventory().clear();
         player.getInventory().setHelmet(null);
         player.getInventory().setChestplate(null);
         player.getInventory().setLeggings(null);
         player.getInventory().setBoots(null);
+        return this;
     }
 
     @SneakyThrows
