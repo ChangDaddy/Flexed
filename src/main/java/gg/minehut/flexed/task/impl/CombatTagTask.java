@@ -28,7 +28,7 @@ public class CombatTagTask  implements Listener, ITask {
                     data.updateBoard();
                 }
             }
-        }.runTaskTimerAsynchronously(Flexed.getInstance().getPlugin(), 20, 0);
+        }.runTaskTimerAsynchronously(Flexed.getInstance().getPlugin(), 0, 20);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -39,6 +39,8 @@ public class CombatTagTask  implements Listener, ITask {
 
             PlayerData playerData = Flexed.getInstance().getDataManager().get(player);
             PlayerData damagerData = Flexed.getInstance().getDataManager().get(damager);
+            if(playerData == null || damagerData == null) return;
+
             playerData.getCombatTag().resetTime();
             damagerData.getCombatTag().resetTime();
         }

@@ -38,12 +38,12 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         PlayerData data = Flexed.getInstance().getDataManager().get(event.getPlayer());
-        if (event.getTo().getY() < 98 && event.getTo().getY() > 48) {
+        if (event.getTo().getY() < 98 && event.getTo().getY() > -2) {
             if (!data.isArena()) {
                 data.setArena(true);
                 data.loadLayout();
             }
-        } else if (event.getTo().getY() < 48) {
+        } else if (event.getTo().getY() < -2) {
             data.killPlayer();
         } else {
             if (data.isArena()) {

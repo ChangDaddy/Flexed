@@ -34,6 +34,7 @@ public class ShopGui {
         for (Item item : ItemContainer.getInstance().getAvailableItems()) {
             if (item instanceof BlockItem) {
                 shop.setButton(1, new SGButton(new ItemBuilder(item.getIcon())
+                        .name(item.getName())
                         .lore(
                                 "&7Block Pack",
                                 "&7Costs &e" + item.getPrice() + " coins"
@@ -42,6 +43,7 @@ public class ShopGui {
                 }));
             } else if (item instanceof HatItem) {
                 shop.setButton(3, new SGButton(new ItemBuilder(item.getIcon())
+                        .name(item.getName())
                         .lore(
                                 "&7Helmet",
                                 "&7Costs &e" + item.getPrice() + " coins"
@@ -50,6 +52,7 @@ public class ShopGui {
                 }));
             } else if(item instanceof StickItem) {
                 shop.setButton(2, new SGButton(new ItemBuilder(item.getIcon())
+                        .name(item.getName())
                         .lore(
                                 "&7Stick",
                                 "&7Costs &e" + item.getPrice() + " coins"

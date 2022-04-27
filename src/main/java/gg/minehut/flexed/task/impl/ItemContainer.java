@@ -32,7 +32,7 @@ public class ItemContainer implements ITask {
     @Getter(AccessLevel.NONE)
     private final Flexed flexed = Flexed.getInstance();
     @Getter
-    private final CountDown countDown = new CountDown(60);
+    private final CountDown countDown = new CountDown(3600);
 
     private final List<Item> items = new ArrayList<>();
 

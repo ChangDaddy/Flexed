@@ -20,7 +20,7 @@ public class StickItem extends Item {
         itemMeta.setDisplayName(ColorUtil.translate("&f&l&o" + name));
         itemMeta.spigot().setUnbreakable(true);
         stick.setItemMeta(itemMeta);
-        stick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
+        stick.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
         this.stick = stick;
     }
 }
